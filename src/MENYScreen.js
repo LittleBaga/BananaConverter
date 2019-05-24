@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import btn_icon_63443 from './images/btn_icon_63443.png';
 import btn_icon_back_meny from './images/btn_icon_back_meny.png';
+import firebase from 'firebase';
+import firestore from 'firebase/firestore';
 
 // UI framework component imports
 import Button from 'muicss/lib/react/button';
@@ -20,7 +22,7 @@ export default class MENYScreen extends Component {
   }
   
   
-  onClick_elButton2 = (ev) => {
+  onClick_elButton2 = (ev) => { 
     // Go to screen 'Login 2'
     this.props.appActions.goToScreen('login2', { transitionId: 'fadeIn' });
   
@@ -41,10 +43,24 @@ export default class MENYScreen extends Component {
   }
   
   
+  onClick_elButton5 = (ev) => {
+    // 'Sign out (lock gate)' action.
+    this.clearSavedLogin();
+    this.props.appActions.goToScreen('login1');
+  
+  }
+  
+  
   onClick_elIconButton = (ev) => {
-    // Go to screen 'MENY'
+    // Go to screen 'MENY' 
     this.props.appActions.goToScreen('meny', { transitionId: 'fadeIn' });
   
+  }
+  
+  
+  clearSavedLogin() {
+    // Logout
+    firebase.auth().signOut();
   }
   
   
@@ -109,6 +125,10 @@ export default class MENYScreen extends Component {
         color: 'white',
         textAlign: 'center',
      };
+    const style_elButton5_outer = {
+        cursor: 'pointer',
+        pointerEvents: 'auto',
+     };
     const style_elIconButton = {
         display: 'block',
         backgroundImage: 'url('+btn_icon_63443+')',
@@ -163,8 +183,8 @@ export default class MENYScreen extends Component {
           
           </div>
           
-          <div className='actionFont elButton5'>
-            <Button style={style_elButton5}  color="primary" >
+          <div className='actionFont elButton5' style={style_elButton5_outer}>
+            <Button style={style_elButton5}  color="primary" onClick={this.onClick_elButton5} >
               {this.props.locStrings.meny2_button5_166424}
             </Button>
           
